@@ -1,8 +1,8 @@
-function Comment() {
+function Comment(props) {
     return (
         <div className="comment">
-            Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit proin sit amet neque.
+            <h3>{props.title}</h3>
+            <p>{props.content}</p>
         </div>
     )
 };
