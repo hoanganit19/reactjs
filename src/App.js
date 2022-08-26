@@ -3,6 +3,9 @@ import "./App.css";
 import React from "react";
 import Member from "./components/Member";
 import Comment from "./components/Comment";
+import Event01 from "./components/events/Event01";
+import Event02 from "./components/events/Event02";
+import Component01 from "./components/context/Component01";
 
 function App() {
   const info = {
@@ -113,8 +116,7 @@ function App() {
 
   return (
     <>
-      {/* <Member name={info.name} age={info.age} shippingAddress={info.shippingAddress} comment={<Comment content={comment.content} title={comment.title}/>}></Member> */}
-      {memberLists}
+      <Component01 />
     </>
   );
 }

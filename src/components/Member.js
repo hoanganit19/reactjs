@@ -3,7 +3,7 @@ import MemberInfo from './MemberInfo';
 import Comment from './Comment';
 import Posts from './Posts';
 
-function Member(props){
+const Member = props => {
     
     const {name, age, shippingAddress, comment, posts} = props;
 
