@@ -5,7 +5,7 @@ import Member from "./components/Member";
 import Comment from "./components/Comment";
 import Event01 from "./components/events/Event01";
 import Event02 from "./components/events/Event02";
-import Component01 from "./components/context/Component01";
+import Customer from "./components/state/Customer";
 
 function App() {
   const info = {
@@ -114,9 +114,15 @@ function App() {
     );
   });
 
+  const customerInfo = {
+    name: 'Hoàng An',
+    email: 'hoangan.web@gmail.com'
+  }
+
   return (
     <>
-      <Component01 />
+      <h1>State React</h1>
+      <Customer info={customerInfo}/>
     </>
   );
 }
