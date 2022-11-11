@@ -8,6 +8,7 @@ import Event02 from "./components/events/Event02";
 import Customer from "./components/state/Customer";
 import Counter from "./components/state/Counter";
 import Toggle from "./components/state/Toggle";
+import Form from "./components/state/Form";
 
 function App() {
   // const info = {
@@ -123,7 +124,7 @@ function App() {
 
   return (
     <>
-      <Toggle/>
+      <Form/>
     </>
   );
 }
