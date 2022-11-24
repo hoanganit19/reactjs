@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Validate from "./Validate.";
+
+const validate = new Validate();
 
 export class Form extends Component {
   constructor() {
@@ -10,6 +13,7 @@ export class Form extends Component {
         password: "",
       },
       errors: {},
+      isValidate: null,
     };
   }
 
@@ -28,37 +32,60 @@ export class Form extends Component {
 
     const errors = {}; //Lưu trữ các lỗi
 
-    if (typeof email === "string" && email.trim() === "") {
-      errors.email = "Email không được để trống";
-    }
+    /*
+      errors.fieldName.rule = message
+    */
 
-    if (typeof password === "string" && password.trim() === "") {
-      errors.password = "Mật khẩu không được để trống";
-    }
+    const rules = {
+      email: "required|email",
+      password: "required|min:9|max:12",
+    };
+
+    const messages = {
+      "email.required": "Email bắt buộc phải nhập",
+      "email.email": "Email không đúng định dạng",
+      "password.required": "Mật khẩu bắt buộc phải nhập",
+      "password.min": "Mật khẩu không được nhỏ hơn :min ký tự",
+      "password.max": "Mật khẩu không được lớn hơn :max ký tự",
+    };
+
+    const isValidate = validate.run(rules, messages);
 
     this.setState({
-      errors: errors,
+      isValidate: isValidate,
     });
 
-    if (Object.keys(errors).length == 0) {
-      this.setState({
-        form: {
-          email: "",
-          password: "",
-        },
-      });
-    }
+    // if (typeof email === "string" && email.trim() === "") {
+    //   errors.email = "Email không được để trống";
+    // }
+
+    // if (typeof password === "string" && password.trim() === "") {
+    //   errors.password = "Mật khẩu không được để trống";
+    // }
+
+    // this.setState({
+    //   errors: errors,
+    // });
+
+    // if (Object.keys(errors).length == 0) {
+    //   this.setState({
+    //     form: {
+    //       email: "",
+    //       password: "",
+    //     },
+    //   });
+    // }
   };
 
   render() {
-    const { form, errors } = this.state;
+    const { form, isValidate } = this.state;
     const { email, password } = form;
 
     return (
       <div className="container py-5">
         <div className="row justify-content-center">
           <div className="col-6">
-            {Object.keys(errors).length > 0 && (
+            {isValidate !== null && isValidate === false && (
               <div className="alert alert-danger text-center">
                 Vui lòng kiểm tra lại dữ liệu
               </div>
@@ -67,16 +94,20 @@ export class Form extends Component {
               <div className="mb-3">
                 <label htmlFor="email">Email</label>
                 <input
-                  type="email"
+                  type="text"
                   id="email"
                   name="email"
-                  className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                  className={`form-control ${
+                    validate.getError("email") ? "is-invalid" : ""
+                  }`}
                   placeholder="Email..."
                   onChange={this.handleChangeValue}
                   value={email}
                 />
-                {errors.email && (
-                  <div className="invalid-feedback">{errors.email}</div>
+                {validate.getError("email") && (
+                  <div className="invalid-feedback">
+                    {validate.getError("email")}
+                  </div>
                 )}
               </div>
               <div className="mb-3">
@@ -86,14 +117,16 @@ export class Form extends Component {
                   id="password"
                   name="password"
                   className={`form-control ${
-                    errors.password ? "is-invalid" : ""
+                    validate.getError("password") ? "is-invalid" : ""
                   }`}
                   placeholder="Mật khẩu..."
                   onChange={this.handleChangeValue}
                   value={password}
                 />
-                {errors.password && (
-                  <div className="invalid-feedback">{errors.password}</div>
+                {validate.getError("password") && (
+                  <div className="invalid-feedback">
+                    {validate.getError("password")}
+                  </div>
                 )}
               </div>
               <button type="submit" className="btn btn-primary">
