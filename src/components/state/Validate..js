@@ -51,6 +51,28 @@ class Validate {
                 ].replaceAll(":max", ruleArr[1]);
               }
             }
+
+            if (ruleName === "same") {
+              if (
+                ruleArr[1] !== undefined &&
+                window[ruleArr[1]]?.value != value
+              ) {
+                this.errors[fieldName][ruleName] =
+                  messages[`${fieldName}.${ruleName}`];
+              }
+            }
+
+            if (ruleName === "regex") {
+              if (ruleArr[1] !== undefined) {
+                const pattern = new RegExp(
+                  ruleArr[1].replace(/^\/+/, "").replace(/\/+$/, "")
+                );
+                if (!pattern.test(value)) {
+                  this.errors[fieldName][ruleName] =
+                    messages[`${fieldName}.${ruleName}`];
+                }
+              }
+            }
           });
         }
       });
