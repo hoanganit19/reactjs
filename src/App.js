@@ -1,6 +1,11 @@
 import React from "react";
-import Users from "./components/lifecycle/Users";
+import Products from "./components/api/Products";
 
 export default function App() {
-  return <Users />;
+  return (
+    <>
+      <h1>API ReactJS</h1>
+      <Products />
+    </>
+  );
 }
