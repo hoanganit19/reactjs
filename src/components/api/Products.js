@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import config from "../../config.json";
-
+import ProductDetail from "./ProductDetail";
+import "./Products.css";
 const { SERVER_API } = config;
 
 export class Products extends Component {
@@ -10,6 +11,7 @@ export class Products extends Component {
     this.state = {
       products: [],
       isLoading: true,
+      productId: null,
     };
   }
 
@@ -20,8 +22,22 @@ export class Products extends Component {
       this.setState({
         products: products,
         isLoading: false,
+        showList: false,
       });
     }
+  };
+
+  handleClickProduct = (id) => {
+    this.setState({
+      productId: id,
+      showList: false,
+    });
+  };
+
+  handleBack = () => {
+    this.setState({
+      showList: true,
+    });
   };
 
   componentDidMount = () => {
@@ -29,14 +45,30 @@ export class Products extends Component {
   };
 
   render() {
-    const { products, isLoading } = this.state;
+    const { products, isLoading, productId, showList } = this.state;
 
     return (
-      <div>
+      <div className="products">
         {isLoading ? (
           <p>Loading...</p>
+        ) : productId && !showList ? (
+          <>
+            <ProductDetail id={productId} />
+            <button onClick={this.handleBack}>Quay lại</button>
+          </>
         ) : (
-          products.map((product) => <h3 key={product.id}>{product.name}</h3>)
+          products.map((product) => (
+            <div
+              key={product.id}
+              onClick={() => {
+                this.handleClickProduct(product.id);
+              }}
+              className="product-item"
+            >
+              <h3>{product.name}</h3>
+              <p>Giá: {product.price}</p>
+            </div>
+          ))
         )}
       </div>
     );

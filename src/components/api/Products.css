@@ -1,0 +1,7 @@
+.products .product-item{
+    cursor: pointer;
+}
+
+.products .product-item:hover{
+    color: red;
+}
