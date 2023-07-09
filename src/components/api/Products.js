@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import config from "../../config.json";
 import ProductDetail from "./ProductDetail";
 import "./Products.css";
+import ProductAdd from "./ProductAdd";
 const { SERVER_API } = config;
 
 export class Products extends Component {
@@ -16,7 +17,7 @@ export class Products extends Component {
   }
 
   getProducts = async () => {
-    const response = await fetch(`${SERVER_API}/products`);
+    const response = await fetch(`${SERVER_API}/products?_order=desc&_sort=id`);
     if (response.ok) {
       const products = await response.json();
       this.setState({
@@ -40,6 +41,12 @@ export class Products extends Component {
     });
   };
 
+  handleAddSuccess = (status) => {
+    if (status) {
+      this.getProducts();
+    }
+  };
+
   componentDidMount = () => {
     this.getProducts();
   };
@@ -49,6 +56,7 @@ export class Products extends Component {
 
     return (
       <div className="products">
+        <ProductAdd onSuccess={this.handleAddSuccess} />
         {isLoading ? (
           <p>Loading...</p>
         ) : productId && !showList ? (
